@@ -6,12 +6,24 @@ var currentContainerEl = document.querySelector("#current-container");
 
 var getCurrentWeather = function(city) {
     //format the weather api url
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=d0012ec08e15e3ab1862fa45c49edc0f";
+    var apiCurrentUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=d0012ec08e15e3ab1862fa45c49edc0f";
 
     //make a request to the url
-    fetch(apiUrl).then(function(response) {
+    fetch(apiCurrentUrl).then(function(response) {
         response.json().then(function(data) {
             displayCurrent(data);
+        });
+    });
+};
+
+var getFutureWeather = function(city) {
+    //format the weather api url
+    var apiFutureUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=d0012ec08e15e3ab1862fa45c49edc0f";
+
+    //make a request to the url
+    fetch(apiFutureUrl).then(function(response) {
+        response.json().then(function(data) {
+            displayFuture(data);
         });
     });
 };
@@ -35,7 +47,7 @@ var displayCurrent = function(current) {
     currentContainerEl.textContent = "";
 
     //format city name
-    var cityName = current.name;
+    var cityName = "City: " + current.name;
 
     //create a container for city name
     var nameEl = document.createElement("div");
@@ -52,7 +64,7 @@ var displayCurrent = function(current) {
     currentContainerEl.appendChild(nameEl);
 
     // format temperature
-    var cityTemp = current.main.temp;
+    var cityTemp = "Temperature: " + current.main.temp;
 
     //create container for temperature
     var tempEl = document.createElement("div");
@@ -69,7 +81,7 @@ var displayCurrent = function(current) {
     currentContainerEl.appendChild(tempEl);
 
     // format humidity
-    var cityHumidity = current.main.humidity;
+    var cityHumidity = "Humidity: " + current.main.humidity;
 
     //create container for humidity
     var humidityEl = document.createElement("div");
@@ -86,7 +98,7 @@ var displayCurrent = function(current) {
     currentContainerEl.appendChild(humidityEl);
 
     // format wind speed
-    var cityWindSpeed = current.wind.speed;
+    var cityWindSpeed = "Wind Speed: " + current.wind.speed;
 
     //create container for wind speed
     var windEl = document.createElement("div");
@@ -100,7 +112,12 @@ var displayCurrent = function(current) {
     windEl.appendChild(windTitleEl);
 
     //append container to the dom
-    currentContainerEl.appendChild(windEl);
+    currentContainerEl.appendChild(windEl);    
+}
+
+var displayFuture = function(future) {
+    
+
 }
 
 userFormEl.addEventListener("submit", formSubmitHandler);
